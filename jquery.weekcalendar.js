@@ -22,6 +22,7 @@
        options : {
          date: new Date(),
          timeFormat : "h:i a",
+         removableHourSeparator: true,
          dateFormat : "M d, Y",
          alwaysDisplayTimeMinutes: true,
          use24Hour : false,
@@ -1286,20 +1287,37 @@
       _formatDate : function(date, format) {
          var options = this.options;
          var returnStr = '';
+         var skipNext = false;
          for (var i = 0; i < format.length; i++) {
             var curChar = format.charAt(i);
-            if ($.isFunction(this._replaceChars[curChar])) {
-	           var res = this._replaceChars[curChar](date, options);
+            if (skipNext){
+                skipNext = false;
+                returnStr += curChar;
+            }
+            else {
+                if (curChar === "|"){
+                    //skip next character
+                    skipNext = true;
+                }
+                else {
+                    if ($.isFunction(this._replaceChars[curChar])) {
+        	           var res = this._replaceChars[curChar](date, options);
 
-	           if (res === '00' && options.alwaysDisplayTimeMinutes === false) {
-		          //remove previous character
-		          returnStr = returnStr.slice(0, -1);
-		        } else {
-                 
-	               returnStr += res;
-	           }
-            } else {
-               returnStr += curChar;
+        	           if (res === '00' && options.alwaysDisplayTimeMinutes === false) {
+        	              if (options.removableHourSeparator) {
+            		          //remove previous character
+            		          returnStr = returnStr.slice(0, -1);
+        		          }
+        		        } else {
+                            while (res[0]==='0') {
+                                res = res.slice(1)      
+                            }                 
+        	               returnStr += res;
+        	           }
+                    } else {
+                       returnStr += curChar;
+                    }
+                }
             }
          }
 
