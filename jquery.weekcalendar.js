@@ -1309,10 +1309,12 @@
             		          returnStr = returnStr.slice(0, -1);
         		          }
         		        } else {
-                            while (res[0]==='0') {
-                                res = res.slice(1)      
-                            }                 
-        	               returnStr += res;
+                          if (res !== null && res != undefined) {
+                            while (curChar === 'H' && res[0]==='0') {
+                              res = res.slice(1)      
+                            }
+         	               returnStr += res;
+                          }                 
         	           }
                     } else {
                        returnStr += curChar;
