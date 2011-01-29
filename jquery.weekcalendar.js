@@ -544,7 +544,7 @@
        */
       _loadCalEvents : function(dateWithinWeek) {
 
-         var date, weekStartDate, endDate, $weekDayColumns;
+         var date, weekStartDate, weekEndDate, $weekDayColumns;
          var self = this;
 
 
@@ -1303,14 +1303,16 @@
                     if ($.isFunction(this._replaceChars[curChar])) {
         	           var res = this._replaceChars[curChar](date, options);
 
-        	           if (res === '00' && options.alwaysDisplayTimeMinutes === false) {
+        	           if (res === '00' && options.alwaysDisplayTimeMinutes === false && curChar !== 'H') {
+        	               console.log("HERE curChar: "+curChar+", res: "+res);                             
         	              if (options.removableHourSeparator) {
             		          //remove previous character
             		          returnStr = returnStr.slice(0, -1);
         		          }
         		        } else {
                           if (res !== null && res != undefined) {
-                            while (curChar === 'H' && res[0]==='0') {
+                              console.log("curChar: "+curChar+", res: "+res);                             
+                            if (curChar === 'H' && res[0]==='0' && res !== '00') {
                               res = res.slice(1)      
                             }
          	               returnStr += res;
