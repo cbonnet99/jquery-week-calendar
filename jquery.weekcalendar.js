@@ -1304,14 +1304,12 @@
         	           var res = this._replaceChars[curChar](date, options);
 
         	           if (res === '00' && options.alwaysDisplayTimeMinutes === false && curChar !== 'H') {
-        	               console.log("HERE curChar: "+curChar+", res: "+res);                             
         	              if (options.removableHourSeparator) {
             		          //remove previous character
             		          returnStr = returnStr.slice(0, -1);
         		          }
         		        } else {
                           if (res !== null && res != undefined) {
-                              console.log("curChar: "+curChar+", res: "+res);                             
                             if (curChar === 'H' && res[0]==='0' && res !== '00') {
                               res = res.slice(1)      
                             }
